@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, Sparkles, Wand2, Github } from 'lucide-react';
+import { Loader2, Sparkles, Wand2, Code2 } from 'lucide-react';
 import { Toaster } from 'sonner';
 import DropZone from '@/components/DropZone';
 import PlatformSelector from '@/components/PlatformSelector';
@@ -65,7 +65,7 @@ export default function Home() {
             <span className="font-semibold tracking-wide">CaptionForge AI</span>
           </div>
           <a href="https://github.com/ShreyasVavley/Caption-maker" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-zinc-300 transition-colors">
-            <Github size={20} />
+            <Code2 size={20} />
           </a>
         </div>
       </header>

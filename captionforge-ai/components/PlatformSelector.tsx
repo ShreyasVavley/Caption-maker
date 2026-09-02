@@ -1,6 +1,6 @@
 'use client';
 import { Platform, Tone } from '@/types';
-import { Instagram, Linkedin, Twitter, Youtube, Video, Zap, Briefcase, Flame, TrendingUp } from 'lucide-react';
+import { Camera, UserRound, Hash, Tv, Video, Zap, Briefcase, Flame, TrendingUp } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -16,11 +16,11 @@ interface PlatformSelectorProps {
 }
 
 const PLATFORMS: { name: Platform; icon: React.ElementType }[] = [
-  { name: 'Instagram Reels', icon: Instagram },
+  { name: 'Instagram Reels', icon: Camera },
   { name: 'TikTok', icon: Video },
-  { name: 'LinkedIn Authority', icon: Linkedin },
-  { name: 'X (Twitter) Threads', icon: Twitter },
-  { name: 'YouTube Shorts', icon: Youtube }
+  { name: 'LinkedIn Authority', icon: UserRound },
+  { name: 'X (Twitter) Threads', icon: Hash },
+  { name: 'YouTube Shorts', icon: Tv }
 ];
 
 const TONES: { name: Tone; icon: React.ElementType }[] = [

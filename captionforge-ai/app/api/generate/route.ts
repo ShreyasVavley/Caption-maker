@@ -62,6 +62,7 @@ export async function POST(req: NextRequest) {
     const tone = formData.get('tone') as string;
     const file = formData.get('file') as File | null;
     const promptContext = formData.get('prompt') as string;
+    const creativity = parseFloat(formData.get('creativity') as string || '0.7');
 
     if (!platform || !tone) {
       return NextResponse.json({ error: 'Platform and tone are required' }, { status: 400 });
@@ -89,9 +90,7 @@ export async function POST(req: NextRequest) {
         config: { mimeType: file.type },
       });
 
-      // Poll until active if it's a video
       if (file.type.startsWith('video/')) {
-        console.log(`Polling status for video file...`);
         let currentFile = await ai.files.get({ name: geminiFile.name });
         while (currentFile.state === 'PROCESSING') {
           await new Promise(resolve => setTimeout(resolve, 2000));
@@ -105,37 +104,40 @@ export async function POST(req: NextRequest) {
       contents.push(geminiFile);
     }
 
-    console.log('Generating content with Gemini...');
-    const response = await ai.models.generateContent({
+    const responseStream = await ai.models.generateContentStream({
       model: 'gemini-2.5-flash',
       contents: contents,
       config: {
         responseMimeType: 'application/json',
         responseSchema: captionSchema as any,
-        temperature: 0.7,
+        temperature: creativity,
       }
     });
 
-    const data = JSON.parse(response.text || '{}');
-    return NextResponse.json(data);
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of responseStream) {
+            if (chunk.text) {
+              controller.enqueue(new TextEncoder().encode(chunk.text));
+            }
+          }
+        } catch (err) {
+          console.error("Streaming error", err);
+        } finally {
+          controller.close();
+          // Clean up files after stream completes
+          if (localFilePath) await unlink(localFilePath).catch(() => {});
+          if (geminiFile?.name) await ai.files.delete({ name: geminiFile.name }).catch(() => {});
+        }
+      }
+    });
+
+    return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
 
   } catch (error: any) {
-    console.error('Error generating caption:', error);
+    if (localFilePath) await unlink(localFilePath).catch(() => {});
+    if (geminiFile?.name) await ai.files.delete({ name: geminiFile.name }).catch(() => {});
     return NextResponse.json({ error: error.message || 'Failed to generate captions' }, { status: 500 });
-  } finally {
-    if (localFilePath) {
-      try {
-        await unlink(localFilePath);
-      } catch (e) {
-        console.error('Failed to cleanup local temp file:', e);
-      }
-    }
-    if (geminiFile?.name) {
-      try {
-        await ai.files.delete({ name: geminiFile.name });
-      } catch (e) {
-        console.error('Failed to cleanup Gemini file:', e);
-      }
-    }
   }
 }

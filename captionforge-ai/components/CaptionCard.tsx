@@ -18,7 +18,7 @@ interface CaptionCardProps {
 
 export default function CaptionCard({ title, variation, platform, index }: CaptionCardProps) {
   const getFullText = () => {
-    return `${variation.hook}\n\n${variation.story}\n\n${variation.callToAction}\n\n${variation.hashtags.map(h => h.startsWith('#') ? h : `#${h}`).join(' ')}`;
+    return `${variation?.hook || ''}\n\n${variation?.story || ''}\n\n${variation?.callToAction || ''}\n\n${(variation?.hashtags || []).map(h => h.startsWith('#') ? h : `#${h}`).join(' ')}`;
   };
 
   const handleCopy = () => {
@@ -60,16 +60,18 @@ export default function CaptionCard({ title, variation, platform, index }: Capti
         </div>
 
         <div className="space-y-4 flex-grow text-[15px] leading-relaxed">
-          <p className="font-medium text-zinc-200">{variation.hook}</p>
-          <p className="text-zinc-400 whitespace-pre-wrap">{variation.story}</p>
-          <p className="font-medium text-teal-300 flex items-center gap-2">
-            <ChevronRight size={16} className="text-teal-500" />
-            {variation.callToAction}
-          </p>
+          <p className="font-medium text-zinc-200">{variation?.hook || <span className="animate-pulse text-zinc-600">Generating hook...</span>}</p>
+          <p className="text-zinc-400 whitespace-pre-wrap">{variation?.story || ''}</p>
+          {variation?.callToAction && (
+            <p className="font-medium text-teal-300 flex items-center gap-2">
+              <ChevronRight size={16} className="text-teal-500" />
+              {variation.callToAction}
+            </p>
+          )}
         </div>
 
-        <div className="pt-5 mt-5 border-t border-zinc-800/50 flex flex-wrap gap-2">
-          {variation.hashtags.map((tag, i) => (
+        <div className="pt-5 mt-5 border-t border-zinc-800/50 flex flex-wrap gap-2 min-h-[40px]">
+          {(variation?.hashtags || []).map((tag, i) => (
             <span 
               key={i} 
               className="px-2.5 py-1 rounded-lg bg-black/20 border border-zinc-800/80 text-xs font-medium text-zinc-500 flex items-center gap-1 hover:text-zinc-300 hover:border-zinc-700 transition-colors cursor-default"

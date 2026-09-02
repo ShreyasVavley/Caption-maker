@@ -8,11 +8,14 @@ import PlatformSelector from '@/components/PlatformSelector';
 import CaptionCard from '@/components/CaptionCard';
 import { Platform, Tone, CaptionResponse } from '@/types';
 
+import { parse } from 'partial-json';
+
 export default function Home() {
   const [platform, setPlatform] = useState<Platform>('Instagram Reels');
   const [tone, setTone] = useState<Tone>('Tech Hustle / Obsidian Dark');
   const [file, setFile] = useState<File | null>(null);
   const [prompt, setPrompt] = useState('');
+  const [creativity, setCreativity] = useState<number>(0.7);
   
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CaptionResponse | null>(null);
@@ -31,6 +34,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append('platform', platform);
     formData.append('tone', tone);
+    formData.append('creativity', creativity.toString());
     if (file) formData.append('file', file);
     if (prompt) formData.append('prompt', prompt);
 
@@ -40,13 +44,35 @@ export default function Home() {
         body: formData,
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Generation failed');
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || 'Generation failed');
+      }
       
-      setResult(data);
+      setLoading(false); // Stop loader, show cards
+      setResult({ variations: { hookShort: {} as any, storyContext: {} as any, engagementQuestion: {} as any } });
+
+      if (res.body) {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let jsonString = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          jsonString += decoder.decode(value, { stream: true });
+          try {
+            const parsed = parse(jsonString);
+            if (parsed && parsed.variations) {
+              setResult(parsed as CaptionResponse);
+            }
+          } catch (e) {
+            // Ignore partial parse errors if they happen
+          }
+        }
+      }
     } catch (err: any) {
       setError(err.message || 'Something went wrong');
-    } finally {
       setLoading(false);
     }
   };
@@ -97,6 +123,22 @@ export default function Home() {
               />
               
               <div className="w-full h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent" />
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Creativity Level</h3>
+                  <span className="text-xs font-bold text-teal-400 bg-teal-500/10 px-2 py-1 rounded-md">{creativity.toFixed(1)}</span>
+                </div>
+                <input 
+                  type="range" min="0" max="1.5" step="0.1"
+                  value={creativity} onChange={(e) => setCreativity(parseFloat(e.target.value))}
+                  className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-teal-500"
+                />
+                <div className="flex justify-between text-[10px] font-bold text-zinc-500 uppercase tracking-wider mt-1">
+                  <span>Factual</span>
+                  <span>Unhinged</span>
+                </div>
+              </div>
 
               <div className="space-y-4">
                 <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Context Directive (Optional)</h3>

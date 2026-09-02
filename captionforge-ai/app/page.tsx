@@ -1,14 +1,20 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, Sparkles, Wand2, Code2 } from 'lucide-react';
-import { Toaster } from 'sonner';
+import { Loader2, Sparkles, Wand2, Code2, Download, Copy, History, Eye, EyeOff } from 'lucide-react';
+import { Toaster, toast } from 'sonner';
 import DropZone from '@/components/DropZone';
 import PlatformSelector from '@/components/PlatformSelector';
 import CaptionCard from '@/components/CaptionCard';
 import { Platform, Tone, CaptionResponse } from '@/types';
-
 import { parse } from 'partial-json';
+
+interface HistoryItem {
+  id: string;
+  date: string;
+  platform: Platform;
+  result: CaptionResponse;
+}
 
 export default function Home() {
   const [platform, setPlatform] = useState<Platform>('Instagram Reels');
@@ -20,6 +26,34 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CaptionResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const [visionText, setVisionText] = useState<string | null>(null);
+  const [isVisionLoading, setIsVisionLoading] = useState(false);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('cf_history');
+    if (saved) {
+      try { setHistory(JSON.parse(saved)); } catch (e) {}
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!file) { setVisionText(null); return; }
+    const analyzeMedia = async () => {
+      setIsVisionLoading(true);
+      setVisionText(null);
+      try {
+        const fd = new FormData();
+        fd.append('file', file);
+        const res = await fetch('/api/vision', { method: 'POST', body: fd });
+        const data = await res.json();
+        if(data.description) setVisionText(data.description);
+      } catch(e) {}
+      setIsVisionLoading(false);
+    }
+    analyzeMedia();
+  }, [file]);
 
   const handleGenerate = async () => {
     if (!file && !prompt.trim()) {
@@ -59,7 +93,16 @@ export default function Home() {
 
         while (true) {
           const { done, value } = await reader.read();
-          if (done) break;
+          if (done) {
+            try {
+              const finalParsed = parse(jsonString) as CaptionResponse;
+              const newItem = { id: Date.now().toString(), date: new Date().toISOString(), platform, result: finalParsed };
+              const newHistory = [newItem, ...history].slice(0, 10);
+              setHistory(newHistory);
+              localStorage.setItem('cf_history', JSON.stringify(newHistory));
+            } catch (e) {}
+            break;
+          }
           jsonString += decoder.decode(value, { stream: true });
           try {
             const parsed = parse(jsonString);
@@ -75,6 +118,25 @@ export default function Home() {
       setError(err.message || 'Something went wrong');
       setLoading(false);
     }
+  };
+
+  const handleCopyAll = () => {
+    if (!result) return;
+    const text = `HOOK:\n${result.variations.hookShort?.hook}\n\nSTORY:\n${result.variations.hookShort?.story}\n\nCTA:\n${result.variations.hookShort?.callToAction}\n\nHASHTAGS:\n${result.variations.hookShort?.hashtags?.join(' ')}`;
+    navigator.clipboard.writeText(text);
+    toast.success('Copied all captions to clipboard!');
+  };
+
+  const handleDownloadTxt = () => {
+    if (!result) return;
+    const text = `HOOK:\n${result.variations.hookShort?.hook}\n\nSTORY:\n${result.variations.hookShort?.story}\n\nCTA:\n${result.variations.hookShort?.callToAction}\n\nHASHTAGS:\n${result.variations.hookShort?.hashtags?.join(' ')}`;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `captionforge-${Date.now()}.txt`;
+    a.click();
+    toast.success('Downloaded captions as TXT!');
   };
 
   return (
@@ -150,6 +212,15 @@ export default function Home() {
                 />
               </div>
 
+              {file && (
+                <div className="bg-[#0a0a0c]/80 border border-zinc-800 rounded-xl p-3 flex items-start gap-3 mt-2">
+                  <div className="mt-0.5"><Eye size={16} className={isVisionLoading ? "text-zinc-500 animate-pulse" : "text-teal-400"} /></div>
+                  <div className="text-xs text-zinc-300 leading-relaxed italic">
+                    {isVisionLoading ? 'AI is analyzing media...' : visionText || 'Media ready.'}
+                  </div>
+                </div>
+              )}
+
               <div className="space-y-4">
                 <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Media Uplink</h3>
                 <DropZone onFileSelect={setFile} />
@@ -164,21 +235,41 @@ export default function Home() {
 
               <button
                 onClick={handleGenerate}
-                disabled={loading}
-                className="uiverse-galaxy-btn mt-2"
+                disabled={loading || (!file && !prompt.trim())}
+                className="uiverse-galaxy-btn w-full mt-4 flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? (
-                  <div className="flex items-center gap-3">
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    <span>Igniting Core...</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <Wand2 className="w-5 h-5" />
-                    <span>Initiate Forge sequence</span>
-                  </div>
-                )}
+                {loading ? <Loader2 className="animate-spin" /> : <Wand2 size={20} className="group-hover:rotate-12 transition-transform" />}
+                {loading ? 'Forging...' : 'Generate Copy'}
               </button>
+
+              {history.length > 0 && (
+                <div className="mt-8 space-y-4">
+                  <div className="flex items-center gap-2 text-zinc-500 mb-4">
+                    <History size={16} />
+                    <h3 className="text-xs font-bold uppercase tracking-widest">Recent Forges</h3>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    {history.map(item => (
+                      <button 
+                        key={item.id} 
+                        onClick={() => {
+                          setResult(item.result);
+                          setPlatform(item.platform);
+                        }}
+                        className="text-left bg-[#0a0a0c]/60 border border-zinc-800/80 p-3 rounded-lg hover:border-teal-500/50 hover:bg-teal-500/5 transition-all group"
+                      >
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-xs font-bold text-teal-400/80">{item.platform}</span>
+                          <span className="text-[10px] text-zinc-600">{new Date(item.date).toLocaleTimeString()}</span>
+                        </div>
+                        <p className="text-sm text-zinc-300 truncate font-medium">
+                          {item.result.variations?.hookShort?.hook || 'Forged Caption...'}
+                        </p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -230,6 +321,15 @@ export default function Home() {
                     <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-grow opacity-50" />
                     <span className="text-xs font-bold uppercase tracking-widest text-teal-400 drop-shadow-[0_0_5px_rgba(45,212,191,0.8)]">Output Generated</span>
                     <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-grow opacity-50" />
+                  </div>
+
+                  <div className="flex justify-end gap-2 px-2 mb-2">
+                    <button onClick={handleCopyAll} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0a0a0c]/80 border border-zinc-800 hover:border-teal-500/50 text-xs font-semibold text-zinc-300 hover:text-teal-400 transition-colors">
+                      <Copy size={14} /> Copy All
+                    </button>
+                    <button onClick={handleDownloadTxt} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0a0a0c]/80 border border-zinc-800 hover:border-teal-500/50 text-xs font-semibold text-zinc-300 hover:text-teal-400 transition-colors">
+                      <Download size={14} /> Export .TXT
+                    </button>
                   </div>
                   
                   <CaptionCard index={1} title="The Hook" variation={result.variations.hookShort} platform={platform} />

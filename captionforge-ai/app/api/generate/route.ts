@@ -47,9 +47,24 @@ const captionSchema = {
         }
       },
       required: ["hookShort", "storyContext", "engagementQuestion"]
+    },
+    platformStrategy: {
+      type: Type.OBJECT,
+      properties: {
+        optimalPostingTimes: {
+          type: Type.ARRAY,
+          items: { type: Type.STRING },
+          description: "2-3 optimal posting times (with timezone context if relevant) for this specific platform and content."
+        },
+        thumbnailIdea: {
+          type: Type.STRING,
+          description: "Detailed description of a highly clickable, viral thumbnail or cover image for this post."
+        }
+      },
+      required: ["optimalPostingTimes", "thumbnailIdea"]
     }
   },
-  required: ["variations"]
+  required: ["variations", "platformStrategy"]
 };
 
 export async function POST(req: NextRequest) {
@@ -72,7 +87,7 @@ export async function POST(req: NextRequest) {
     const promptStr = `Generate social media captions for ${platform} with a "${tone}" tone.
     Context: ${promptContext || 'None'}
     
-    Output exactly 3 unique caption variations according to the JSON schema.`;
+    Output exactly 3 unique caption variations AND a platform strategy (thumbnail idea & optimal posting times) according to the strict JSON schema.`;
     
     contents.push(promptStr);
 

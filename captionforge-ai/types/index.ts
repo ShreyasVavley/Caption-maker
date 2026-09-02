@@ -10,10 +10,16 @@ export interface CaptionVariation {
   callToAction: string;
 }
 
+export interface PlatformStrategy {
+  optimalPostingTimes: string[];
+  thumbnailIdea: string;
+}
+
 export interface CaptionResponse {
   variations: {
     hookShort: CaptionVariation;
     storyContext: CaptionVariation;
     engagementQuestion: CaptionVariation;
   };
+  platformStrategy?: PlatformStrategy;
 }

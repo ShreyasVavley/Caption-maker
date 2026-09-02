@@ -6,6 +6,7 @@ import { Toaster, toast } from 'sonner';
 import DropZone from '@/components/DropZone';
 import PlatformSelector from '@/components/PlatformSelector';
 import CaptionCard from '@/components/CaptionCard';
+import StrategyCard from '@/components/StrategyCard';
 import { Platform, Tone, CaptionResponse } from '@/types';
 import { parse } from 'partial-json';
 
@@ -372,13 +373,20 @@ export default function Home() {
                     
                     <motion.div 
                       initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+                      className="md:col-span-2 h-full"
+                    >
+                      <StrategyCard strategy={result.platformStrategy as any} />
+                    </motion.div>
+
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
                       className="md:col-span-1 h-full"
                     >
                       <CaptionCard index={2} title="Story Context" variation={result.variations?.storyContext} platform={platform} />
                     </motion.div>
                     
                     <motion.div 
-                      initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
+                      initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}
                       className="md:col-span-1 h-full"
                     >
                       <CaptionCard index={3} title="Engagement Drive" variation={result.variations?.engagementQuestion} platform={platform} />

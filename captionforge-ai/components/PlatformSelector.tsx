@@ -1,5 +1,12 @@
 'use client';
 import { Platform, Tone } from '@/types';
+import { Instagram, Linkedin, Twitter, Youtube, Video, Zap, Briefcase, Flame, TrendingUp } from 'lucide-react';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 interface PlatformSelectorProps {
   platform: Platform;
@@ -8,50 +15,62 @@ interface PlatformSelectorProps {
   setTone: (t: Tone) => void;
 }
 
-const PLATFORMS: Platform[] = [
-  'Instagram Reels', 'TikTok', 'LinkedIn Authority', 'X (Twitter) Threads', 'YouTube Shorts'
+const PLATFORMS: { name: Platform; icon: React.ElementType }[] = [
+  { name: 'Instagram Reels', icon: Instagram },
+  { name: 'TikTok', icon: Video },
+  { name: 'LinkedIn Authority', icon: Linkedin },
+  { name: 'X (Twitter) Threads', icon: Twitter },
+  { name: 'YouTube Shorts', icon: Youtube }
 ];
 
-const TONES: Tone[] = [
-  'Witty & Sarcastic', 'Minimalist & Stoic', 'Tech Hustle / Obsidian Dark', 'Gen-Z Viral / Unhinged', 'High-Converting Sales'
+const TONES: { name: Tone; icon: React.ElementType }[] = [
+  { name: 'Witty & Sarcastic', icon: Zap },
+  { name: 'Minimalist & Stoic', icon: Briefcase },
+  { name: 'Tech Hustle / Obsidian Dark', icon: TrendingUp },
+  { name: 'Gen-Z Viral / Unhinged', icon: Flame },
+  { name: 'High-Converting Sales', icon: TrendingUp }
 ];
 
 export default function PlatformSelector({ platform, setPlatform, tone, setTone }: PlatformSelectorProps) {
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Target Platform</h3>
-        <div className="flex flex-wrap gap-2">
-          {PLATFORMS.map((p) => (
+    <div className="flex flex-col gap-8">
+      <div className="space-y-4">
+        <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">Platform</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {PLATFORMS.map(({ name, icon: Icon }) => (
             <button
-              key={p}
-              onClick={() => setPlatform(p)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                platform === p 
-                  ? 'bg-accent text-white shadow-[0_0_15px_rgba(99,102,241,0.5)] border-transparent' 
-                  : 'glass-panel text-gray-300 hover:text-white hover:border-gray-500'
-              }`}
+              key={name}
+              onClick={() => setPlatform(name)}
+              className={cn(
+                "flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 border",
+                platform === name
+                  ? "bg-indigo-500/10 border-indigo-500/50 text-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.15)]"
+                  : "bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
+              )}
             >
-              {p}
+              <Icon size={18} className={platform === name ? "text-indigo-400" : "text-zinc-500"} />
+              <span className="truncate">{name}</span>
             </button>
           ))}
         </div>
       </div>
       
-      <div>
-        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Brand Tone</h3>
-        <div className="flex flex-wrap gap-2">
-          {TONES.map((t) => (
+      <div className="space-y-4">
+        <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-widest">Tone of Voice</h3>
+        <div className="flex flex-wrap gap-2.5">
+          {TONES.map(({ name, icon: Icon }) => (
             <button
-              key={t}
-              onClick={() => setTone(t)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                tone === t 
-                  ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.3)] border-transparent' 
-                  : 'glass-panel text-gray-300 hover:text-white hover:border-gray-500'
-              }`}
+              key={name}
+              onClick={() => setTone(name)}
+              className={cn(
+                "flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 border",
+                tone === name
+                  ? "bg-zinc-100 border-zinc-100 text-zinc-900 shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                  : "bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
+              )}
             >
-              {t}
+              <Icon size={16} className={tone === name ? "text-zinc-900" : "text-zinc-500"} />
+              <span>{name}</span>
             </button>
           ))}
         </div>

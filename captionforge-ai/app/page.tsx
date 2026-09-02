@@ -273,36 +273,64 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Right Column: Results */}
-          <div className="relative h-full min-h-[600px] lg:mt-6">
+          {/* Right Column: Dynamic Bento Grid */}
+          <div className="relative min-h-[600px] flex flex-col">
             <AnimatePresence mode="wait">
               {!result && !loading && (
-                <motion.div 
-                  key="empty"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                <motion.div
+                  key="empty-bento"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="absolute inset-0 flex flex-col items-center justify-center uiverse-holo-card"
+                  transition={{ duration: 0.5, staggerChildren: 0.1 }}
+                  className="absolute inset-0 grid grid-cols-2 grid-rows-3 gap-4"
                 >
-                  <div className="w-20 h-20 rounded-2xl bg-[#0a0a0c]/80 border border-zinc-800 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(0,168,150,0.2)]">
-                    <Sparkles className="w-8 h-8 text-teal-400 animate-pulse" />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2 tracking-wide">Awaiting Uplink</h3>
-                  <p className="text-zinc-500 text-center text-sm max-w-[260px] leading-relaxed">
-                    Stand by for media input and parameter configuration.
-                  </p>
+                  {/* Bento Box 1: Main Status */}
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+                    className="col-span-2 row-span-2 uiverse-holo-card flex flex-col items-center justify-center border border-teal-500/10 p-8"
+                  >
+                    <div className="w-20 h-20 rounded-2xl bg-[#0a0a0c]/80 border border-zinc-800 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(0,168,150,0.2)]">
+                      <Sparkles className="w-8 h-8 text-teal-400 animate-pulse" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white mb-2 tracking-wide">Awaiting Uplink</h3>
+                    <p className="text-zinc-500 text-center text-sm max-w-[280px] leading-relaxed">
+                      Configure your parameters and initiate the forge sequence to generate multi-modal copy.
+                    </p>
+                  </motion.div>
+
+                  {/* Bento Box 2: Speed */}
+                  <motion.div 
+                    initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}
+                    className="col-span-1 row-span-1 uiverse-holo-card flex flex-col justify-center border border-teal-500/10 p-6 relative overflow-hidden group"
+                  >
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"><Wand2 size={40} /></div>
+                    <h4 className="text-teal-400 font-bold text-sm mb-1 uppercase tracking-wider">Lightning Fast</h4>
+                    <p className="text-zinc-400 text-xs">Powered by Gemini 2.5 Flash streaming.</p>
+                  </motion.div>
+
+                  {/* Bento Box 3: Multi-Modal */}
+                  <motion.div 
+                    initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
+                    className="col-span-1 row-span-1 uiverse-holo-card flex flex-col justify-center border border-teal-500/10 p-6 relative overflow-hidden group"
+                  >
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"><Eye size={40} /></div>
+                    <h4 className="text-teal-400 font-bold text-sm mb-1 uppercase tracking-wider">Vision Engine</h4>
+                    <p className="text-zinc-400 text-xs">Native video and image context analysis.</p>
+                  </motion.div>
                 </motion.div>
               )}
 
               {loading && (
                 <motion.div
                   key="loading"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute inset-0 flex flex-col items-center justify-center uiverse-holo-card bg-[#0a0a0c]/60 backdrop-blur-xl"
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, filter: 'blur(10px)' }}
+                  className="absolute inset-0 flex flex-col items-center justify-center uiverse-holo-card border border-teal-500/30 shadow-[0_0_50px_rgba(0,168,150,0.1)]"
                 >
-                  <div className="uiverse-atom-loader mb-12">
+                  <div className="relative w-24 h-24 mb-8">
+                    <div className="uiverse-atom-loader" />
                     <div className="uiverse-atom-core" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2 tracking-widest uppercase">Processing via Gemini</h3>
@@ -311,19 +339,20 @@ export default function Home() {
               )}
 
               {result && (
-                <motion.div 
+                <motion.div
                   key="results"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="flex flex-col gap-6 relative z-20"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], staggerChildren: 0.15 }}
+                  className="flex flex-col gap-4 relative z-20 h-full"
                 >
-                  <div className="flex items-center gap-4 mb-2 px-2">
+                  <div className="flex items-center gap-4 mb-1 px-2">
                     <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-grow opacity-50" />
                     <span className="text-xs font-bold uppercase tracking-widest text-teal-400 drop-shadow-[0_0_5px_rgba(45,212,191,0.8)]">Output Generated</span>
                     <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-grow opacity-50" />
                   </div>
 
-                  <div className="flex justify-end gap-2 px-2 mb-2">
+                  <div className="flex justify-end gap-2 px-2 mb-1">
                     <button onClick={handleCopyAll} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0a0a0c]/80 border border-zinc-800 hover:border-teal-500/50 text-xs font-semibold text-zinc-300 hover:text-teal-400 transition-colors">
                       <Copy size={14} /> Copy All
                     </button>
@@ -332,9 +361,29 @@ export default function Home() {
                     </button>
                   </div>
                   
-                  <CaptionCard index={1} title="The Hook" variation={result.variations.hookShort} platform={platform} />
-                  <CaptionCard index={2} title="Story Context" variation={result.variations.storyContext} platform={platform} />
-                  <CaptionCard index={3} title="Engagement Drive" variation={result.variations.engagementQuestion} platform={platform} />
+                  {/* Results Bento Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-grow">
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+                      className="md:col-span-2 h-full"
+                    >
+                      <CaptionCard index={1} title="The Hook" variation={result.variations?.hookShort} platform={platform} />
+                    </motion.div>
+                    
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+                      className="md:col-span-1 h-full"
+                    >
+                      <CaptionCard index={2} title="Story Context" variation={result.variations?.storyContext} platform={platform} />
+                    </motion.div>
+                    
+                    <motion.div 
+                      initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
+                      className="md:col-span-1 h-full"
+                    >
+                      <CaptionCard index={3} title="Engagement Drive" variation={result.variations?.engagementQuestion} platform={platform} />
+                    </motion.div>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

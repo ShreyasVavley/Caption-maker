@@ -33,10 +33,10 @@ export default function CaptionCard({ title, variation, platform, index }: Capti
   const isWarning = isX && textLength > 280;
 
   return (
-    <div className="relative group overflow-hidden rounded-2xl bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-xl transition-all duration-300 hover:bg-zinc-900/60 hover:border-zinc-700/50">
+    <div className="relative group overflow-hidden rounded-2xl bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-xl transition-all duration-300 hover:bg-zinc-900/60 hover:border-zinc-700/50 h-full flex flex-col">
       <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
-      <div className="p-6 relative z-10 flex flex-col h-full">
+      <div className="p-6 relative z-10 flex flex-col h-full flex-grow">
         <div className="flex items-start justify-between mb-5">
           <div className="flex items-center gap-3">
             <span className="flex items-center justify-center w-8 h-8 rounded-full bg-zinc-800 text-zinc-400 text-sm font-semibold">

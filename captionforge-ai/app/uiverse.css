@@ -9,7 +9,7 @@
   height: 60px;
   border-radius: 14px;
   border: none;
-  background-image: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
+  background-image: linear-gradient(144deg, #00A896, #1B4D3E 50%, #00FFD1);
   color: #fff;
   font-size: 1.1rem;
   font-weight: bold;
@@ -35,7 +35,7 @@
 }
 
 .uiverse-galaxy-btn:hover {
-  box-shadow: 0 0 20px rgba(91, 66, 243, 0.5), 0 0 40px rgba(175, 64, 255, 0.3);
+  box-shadow: 0 0 20px rgba(27, 77, 62, 0.5), 0 0 40px rgba(0, 168, 150, 0.3);
   transform: translateY(-2px);
 }
 
@@ -60,14 +60,14 @@
   height: 100%;
   border-radius: 50%;
   border: 4px solid transparent;
-  border-top-color: #00ddeb;
-  border-bottom-color: #af40ff;
+  border-top-color: #00FFD1;
+  border-bottom-color: #00A896;
   animation: atom-spin 1.5s linear infinite;
 }
 
 .uiverse-atom-loader::after {
-  border-top-color: #5b42f3;
-  border-bottom-color: #00ddeb;
+  border-top-color: #1B4D3E;
+  border-bottom-color: #00FFD1;
   animation-duration: 2.5s;
   animation-direction: reverse;
 }
@@ -85,9 +85,9 @@
   transform: translate(-50%, -50%);
   width: 20px;
   height: 20px;
-  background: radial-gradient(circle, #fff, #00ddeb);
+  background: radial-gradient(circle, #fff, #00FFD1);
   border-radius: 50%;
-  box-shadow: 0 0 15px #00ddeb, 0 0 30px #af40ff;
+  box-shadow: 0 0 15px #00FFD1, 0 0 30px #00A896;
   animation: core-pulse 1.5s ease-in-out infinite alternate;
 }
 
@@ -116,7 +116,7 @@
   height: 200%;
   background: conic-gradient(
     transparent,
-    rgba(175, 64, 255, 0.3),
+    rgba(0, 168, 150, 0.3),
     transparent 30%
   );
   animation: rotate-holo 4s linear infinite;
@@ -156,14 +156,14 @@
 }
 
 .uiverse-radio-label:hover {
-  border-color: #5b42f3;
-  box-shadow: 0 0 15px rgba(91, 66, 243, 0.2);
+  border-color: #00A896;
+  box-shadow: 0 0 15px rgba(0, 168, 150, 0.2);
 }
 
 .uiverse-radio-input:checked + .uiverse-radio-label {
-  background: rgba(91, 66, 243, 0.1);
-  border-color: #af40ff;
-  box-shadow: 0 0 20px rgba(175, 64, 255, 0.3), inset 0 0 10px rgba(91, 66, 243, 0.2);
+  background: rgba(0, 168, 150, 0.1);
+  border-color: #00FFD1;
+  box-shadow: 0 0 20px rgba(0, 255, 209, 0.3), inset 0 0 10px rgba(0, 168, 150, 0.2);
 }
 
 .uiverse-radio-icon {
@@ -174,8 +174,8 @@
 }
 
 .uiverse-radio-input:checked + .uiverse-radio-label .uiverse-radio-icon {
-  color: #00ddeb;
-  filter: drop-shadow(0 0 5px #00ddeb);
+  color: #00FFD1;
+  filter: drop-shadow(0 0 5px #00FFD1);
 }
 
 .uiverse-radio-text {
@@ -213,13 +213,13 @@
 }
 
 .uiverse-bg-orbs::before {
-  background: radial-gradient(circle, rgba(175,64,255,0.8) 0%, rgba(175,64,255,0) 70%);
+  background: radial-gradient(circle, rgba(0, 255, 209, 0.6) 0%, rgba(0, 255, 209, 0) 70%);
   top: -20%;
   left: -10%;
 }
 
 .uiverse-bg-orbs::after {
-  background: radial-gradient(circle, rgba(0,221,235,0.8) 0%, rgba(0,221,235,0) 70%);
+  background: radial-gradient(circle, rgba(0, 168, 150, 0.7) 0%, rgba(0, 168, 150, 0) 70%);
   bottom: -20%;
   right: -10%;
   animation-duration: 15s;
@@ -231,7 +231,7 @@
   width: 60vw;
   height: 60vh;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(91,66,243,0.7) 0%, rgba(91,66,243,0) 70%);
+  background: radial-gradient(circle, rgba(27, 77, 62, 0.8) 0%, rgba(27, 77, 62, 0) 70%);
   filter: blur(120px);
   top: 50%;
   left: 50%;

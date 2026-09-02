@@ -34,7 +34,7 @@ export default function CaptionCard({ title, variation, platform, index }: Capti
 
   return (
     <div className="relative group overflow-hidden rounded-2xl bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-xl transition-all duration-300 hover:bg-zinc-900/60 hover:border-zinc-700/50">
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
       <div className="p-6 relative z-10 flex flex-col h-full">
         <div className="flex items-start justify-between mb-5">
@@ -52,7 +52,7 @@ export default function CaptionCard({ title, variation, platform, index }: Capti
           
           <button
             onClick={handleCopy}
-            className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-800/50 text-zinc-400 hover:text-indigo-400 hover:bg-indigo-500/10 transition-all duration-200"
+            className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-800/50 text-zinc-400 hover:text-teal-400 hover:bg-teal-500/10 transition-all duration-200"
             aria-label="Copy caption"
           >
             <Copy size={16} />
@@ -62,8 +62,8 @@ export default function CaptionCard({ title, variation, platform, index }: Capti
         <div className="space-y-4 flex-grow text-[15px] leading-relaxed">
           <p className="font-medium text-zinc-200">{variation.hook}</p>
           <p className="text-zinc-400 whitespace-pre-wrap">{variation.story}</p>
-          <p className="font-medium text-indigo-300 flex items-center gap-2">
-            <ChevronRight size={16} className="text-indigo-500" />
+          <p className="font-medium text-teal-300 flex items-center gap-2">
+            <ChevronRight size={16} className="text-teal-500" />
             {variation.callToAction}
           </p>
         </div>
@@ -74,7 +74,7 @@ export default function CaptionCard({ title, variation, platform, index }: Capti
               key={i} 
               className="px-2.5 py-1 rounded-lg bg-black/20 border border-zinc-800/80 text-xs font-medium text-zinc-500 flex items-center gap-1 hover:text-zinc-300 hover:border-zinc-700 transition-colors cursor-default"
             >
-              <Hash size={12} className="text-indigo-500/70" />
+              <Hash size={12} className="text-teal-500/70" />
               {tag.replace('#', '')}
             </span>
           ))}

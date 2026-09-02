@@ -44,11 +44,11 @@ export default function PlatformSelector({ platform, setPlatform, tone, setTone 
               className={cn(
                 "flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 border",
                 platform === name
-                  ? "bg-indigo-500/10 border-indigo-500/50 text-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.15)]"
+                  ? "bg-teal-500/10 border-teal-500/50 text-teal-400 shadow-[0_0_20px_rgba(99,102,241,0.15)]"
                   : "bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
               )}
             >
-              <Icon size={18} className={platform === name ? "text-indigo-400" : "text-zinc-500"} />
+              <Icon size={18} className={platform === name ? "text-teal-400" : "text-zinc-500"} />
               <span className="truncate">{name}</span>
             </button>
           ))}

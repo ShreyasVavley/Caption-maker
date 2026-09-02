@@ -63,11 +63,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
-              <Sparkles className="w-4 h-4 text-[#00ddeb]" />
+              <Sparkles className="w-4 h-4 text-teal-400" />
             </div>
-            <span className="font-bold tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-[#00ddeb] to-[#af40ff]">CaptionForge</span>
+            <span className="font-bold tracking-widest uppercase text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-emerald-400">CaptionForge</span>
           </div>
-          <a href="https://github.com/ShreyasVavley/Caption-maker" target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-[#00ddeb] transition-colors drop-shadow-[0_0_8px_rgba(0,221,235,0.8)]">
+          <a href="https://github.com/ShreyasVavley/Caption-maker" target="_blank" rel="noreferrer" className="text-zinc-400 hover:text-teal-400 transition-colors drop-shadow-[0_0_8px_rgba(45,212,191,0.5)]">
             <Code2 size={22} />
           </a>
         </div>
@@ -81,7 +81,7 @@ export default function Home() {
             <div>
               <h1 className="text-5xl sm:text-6xl font-black tracking-tighter mb-4 leading-tight">
                 Forging <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#af40ff] via-[#5b42f3] to-[#00ddeb] drop-shadow-[0_0_30px_rgba(91,66,243,0.6)]">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-[#1B4D3E] drop-shadow-[0_0_30px_rgba(45,212,191,0.3)]">
                   Hyper-Viral Copy.
                 </span>
               </h1>
@@ -104,7 +104,7 @@ export default function Home() {
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   placeholder="Define the narrative parameters..."
-                  className="w-full bg-[#0a0a0c]/80 backdrop-blur-md border border-zinc-800 rounded-xl p-4 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-[#af40ff] focus:ring-1 focus:ring-[#af40ff] transition-all resize-none h-24 shadow-inner"
+                  className="w-full bg-[#0a0a0c]/80 backdrop-blur-md border border-zinc-800 rounded-xl p-4 text-sm text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all resize-none h-24 shadow-inner"
                 />
               </div>
 
@@ -151,8 +151,8 @@ export default function Home() {
                   exit={{ opacity: 0, scale: 0.95 }}
                   className="absolute inset-0 flex flex-col items-center justify-center uiverse-holo-card"
                 >
-                  <div className="w-20 h-20 rounded-2xl bg-[#0a0a0c]/80 border border-zinc-800 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(0,221,235,0.2)]">
-                    <Sparkles className="w-8 h-8 text-[#00ddeb] animate-pulse" />
+                  <div className="w-20 h-20 rounded-2xl bg-[#0a0a0c]/80 border border-zinc-800 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(0,168,150,0.2)]">
+                    <Sparkles className="w-8 h-8 text-teal-400 animate-pulse" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2 tracking-wide">Awaiting Uplink</h3>
                   <p className="text-zinc-500 text-center text-sm max-w-[260px] leading-relaxed">
@@ -173,7 +173,7 @@ export default function Home() {
                     <div className="uiverse-atom-core" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2 tracking-widest uppercase">Processing via Gemini</h3>
-                  <p className="text-[#00ddeb] text-sm animate-pulse tracking-wide font-medium">Extracting multi-modal intelligence...</p>
+                  <p className="text-teal-400 text-sm animate-pulse tracking-wide font-medium">Extracting multi-modal intelligence...</p>
                 </motion.div>
               )}
 
@@ -185,9 +185,9 @@ export default function Home() {
                   className="flex flex-col gap-6 relative z-20"
                 >
                   <div className="flex items-center gap-4 mb-2 px-2">
-                    <div className="h-px bg-gradient-to-r from-transparent via-[#af40ff] to-transparent flex-grow opacity-50" />
-                    <span className="text-xs font-bold uppercase tracking-widest text-[#00ddeb] drop-shadow-[0_0_5px_rgba(0,221,235,0.8)]">Output Generated</span>
-                    <div className="h-px bg-gradient-to-r from-transparent via-[#af40ff] to-transparent flex-grow opacity-50" />
+                    <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-grow opacity-50" />
+                    <span className="text-xs font-bold uppercase tracking-widest text-teal-400 drop-shadow-[0_0_5px_rgba(45,212,191,0.8)]">Output Generated</span>
+                    <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-grow opacity-50" />
                   </div>
                   
                   <CaptionCard index={1} title="The Hook" variation={result.variations.hookShort} platform={platform} />

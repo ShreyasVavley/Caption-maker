@@ -83,7 +83,7 @@ export default function DropZone({ onFileSelect }: DropZoneProps) {
             className={cn(
               "relative flex flex-col items-center justify-center w-full h-56 rounded-2xl border-2 border-dashed transition-all duration-200 cursor-pointer overflow-hidden",
               dragActive 
-                ? "border-indigo-500 bg-indigo-500/5 scale-[1.02]" 
+                ? "border-teal-500 bg-teal-500/5 scale-[1.02]" 
                 : "border-zinc-800 bg-zinc-900/30 hover:bg-zinc-900/60 hover:border-zinc-700"
             )}
             onDragEnter={handleDrag}
@@ -102,14 +102,14 @@ export default function DropZone({ onFileSelect }: DropZoneProps) {
             
             <div className={cn(
               "p-4 rounded-2xl transition-all duration-300 mb-4",
-              dragActive ? "bg-indigo-500/20 text-indigo-400" : "bg-zinc-800/50 text-zinc-400"
+              dragActive ? "bg-teal-500/20 text-teal-400" : "bg-zinc-800/50 text-zinc-400"
             )}>
               <UploadCloud size={32} strokeWidth={1.5} />
             </div>
             
             <div className="text-center px-4">
               <p className="text-sm font-medium text-zinc-200 mb-1">
-                Drag & drop or <span className="text-indigo-400">browse files</span>
+                Drag & drop or <span className="text-teal-400">browse files</span>
               </p>
               <p className="text-xs text-zinc-500">
                 Images (PNG, JPG) or Video (MP4) up to 50MB
@@ -130,7 +130,7 @@ export default function DropZone({ onFileSelect }: DropZoneProps) {
             
             <div className="relative z-10 flex flex-col items-center gap-3 pointer-events-none p-6">
               <div className="p-3 bg-zinc-900/80 backdrop-blur-md rounded-xl border border-zinc-800 shadow-xl">
-                {preview.type === 'image' ? <FileImage className="text-indigo-400" size={24} /> : <FileVideo className="text-indigo-400" size={24} />}
+                {preview.type === 'image' ? <FileImage className="text-teal-400" size={24} /> : <FileVideo className="text-teal-400" size={24} />}
               </div>
               <div className="text-center bg-zinc-900/60 backdrop-blur-md py-1.5 px-4 rounded-full border border-zinc-800/50">
                 <p className="text-sm font-medium text-zinc-200 truncate max-w-[200px]">{preview.name}</p>

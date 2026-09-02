@@ -53,7 +53,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen text-zinc-100 selection:bg-indigo-500/30 font-sans pb-24 relative overflow-hidden">
-      <div className="uiverse-bg-grid" />
+      <div className="uiverse-bg-orbs">
+        <div className="uiverse-bg-orb-3" />
+      </div>
       <Toaster theme="dark" position="bottom-right" className="font-sans" />
       
       {/* Header */}

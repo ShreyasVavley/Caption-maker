@@ -7,6 +7,7 @@ import DropZone from '@/components/DropZone';
 import PlatformSelector from '@/components/PlatformSelector';
 import CaptionCard from '@/components/CaptionCard';
 import StrategyCard from '@/components/StrategyCard';
+import CypherText from '@/components/CypherText';
 import { Platform, Tone, CaptionResponse } from '@/types';
 import { parse } from 'partial-json';
 
@@ -294,7 +295,9 @@ export default function Home() {
                     <div className="w-20 h-20 rounded-2xl bg-[#0a0a0c]/80 border border-zinc-800 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(0,168,150,0.2)]">
                       <Sparkles className="w-8 h-8 text-teal-400 animate-pulse" />
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-2 tracking-wide">Awaiting Uplink</h3>
+                    <h3 className="text-2xl font-bold text-white mb-2 tracking-wide">
+                      <CypherText text="Awaiting Uplink" />
+                    </h3>
                     <p className="text-zinc-500 text-center text-sm max-w-[280px] leading-relaxed">
                       Configure your parameters and initiate the forge sequence to generate multi-modal copy.
                     </p>
@@ -349,7 +352,9 @@ export default function Home() {
                 >
                   <div className="flex items-center gap-4 mb-1 px-2">
                     <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-grow opacity-50" />
-                    <span className="text-xs font-bold uppercase tracking-widest text-teal-400 drop-shadow-[0_0_5px_rgba(45,212,191,0.8)]">Output Generated</span>
+                    <span className="text-xs font-bold uppercase tracking-widest text-teal-400 drop-shadow-[0_0_5px_rgba(45,212,191,0.8)]">
+                      <CypherText text="Output Generated" speed={20} />
+                    </span>
                     <div className="h-px bg-gradient-to-r from-transparent via-teal-500 to-transparent flex-grow opacity-50" />
                   </div>
 

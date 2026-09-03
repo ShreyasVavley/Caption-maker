@@ -7,9 +7,22 @@ interface StrategyCardProps {
 }
 
 export default function StrategyCard({ strategy }: StrategyCardProps) {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+  };
+
   return (
-    <div className="relative group overflow-hidden rounded-2xl bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-xl transition-all duration-300 hover:bg-zinc-900/60 hover:border-zinc-700/50 h-full flex flex-col">
-      <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+    <div 
+      onMouseMove={handleMouseMove}
+      className="relative group overflow-hidden rounded-2xl bg-zinc-900/40 border border-zinc-800/50 backdrop-blur-xl transition-all duration-300 hover:bg-zinc-900/60 hover:border-zinc-700/50 h-full flex flex-col"
+    >
+      <div className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100 z-0"
+           style={{ background: 'radial-gradient(600px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(45,212,191,0.15), transparent 40%)' }} />
+      <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
       
       <div className="p-6 relative z-10 flex flex-col h-full flex-grow space-y-6">
         <div>

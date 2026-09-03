@@ -30,6 +30,8 @@ export default function CaptionCard({ title, variation, platform, index }: Capti
 
   const textLength = getFullText().length;
   const isX = platform === 'X (Twitter) Threads';
+  const isWarning = isX && textLength > 280;
+  
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
